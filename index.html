@@ -2,11 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#4f46e5">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>基金从业资格考试 - 三科目完整题库</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -47,6 +43,9 @@
             </button>
         </nav>
 
+        <!-- 移动端目录按钮 -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰ 目录</button>
+
         <!-- 主内容区 -->
         <div class="main-layout">
             <!-- 左侧导航 -->
@@ -54,11 +53,15 @@
                 <div class="sidebar-header">
                     <button class="menu-toggle" id="menuToggle">☰</button>
                     <h2 id="sidebarTitle">章节列表</h2>
+                    <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
                 </div>
                 <div class="sidebar-content" id="sidebarContent">
                     <!-- 动态生成内容 -->
                 </div>
             </aside>
+
+            <!-- 移动端遮罩层 -->
+            <div class="mobile-overlay" id="mobileOverlay"></div>
 
             <!-- 右侧题目区域 -->
             <main class="content-area">
@@ -86,9 +89,6 @@
                         <div class="welcome-content">
                             <h2>欢迎使用基金从业资格考试题库</h2>
                             <p>请选择左侧的章节或试卷开始练习</p>
-                            <p class="mobile-hint" style="display: none; color: var(--primary-color); margin-top: 10px; font-size: 0.9rem;">
-                                💡 点击左上角 ☰ 按钮或从左向右滑动打开章节列表
-                            </p>
                             <div class="stats-overview">
                                 <div class="stat-card">
                                     <div class="stat-number" id="statChapters">0</div>

@@ -122,77 +122,46 @@ function initUI() {
     // 遮罩层点击
     document.getElementById('overlay')?.addEventListener('click', closeAllModals);
     
-    // 移动端菜单
-    document.getElementById('menuToggle')?.addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('open');
-    });
+    // 移动端菜单控制
+    initMobileMenu();
 
     // 初始化侧边栏
     renderSidebar();
-
-    // 初始化移动端触摸滑动支持
-    initMobileTouch();
 }
 
-// ==================== 移动端触摸滑动支持 ====================
-function initMobileTouch() {
-    let touchStartX = 0;
-    let touchEndX = 0;
-    let touchStartY = 0;
-    let touchEndY = 0;
-
+// ==================== 移动端菜单控制 ====================
+function initMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+    const mobileOverlay = document.getElementById('mobileOverlay');
     const sidebar = document.getElementById('sidebar');
-    const contentArea = document.querySelector('.content-area');
 
-    // 从屏幕左侧边缘滑动打开侧边栏
-    document.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-    }, { passive: true });
+    // 打开菜单
+    mobileMenuBtn?.addEventListener('click', () => {
+        sidebar?.classList.add('open');
+        mobileOverlay?.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
 
-    document.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        touchEndY = e.changedTouches[0].screenY;
+    // 关闭菜单
+    mobileCloseBtn?.addEventListener('click', closeMobileMenu);
+    mobileOverlay?.addEventListener('click', closeMobileMenu);
 
-        const deltaX = touchEndX - touchStartX;
-        const deltaY = touchEndY - touchStartY;
-
-        // 水平滑动距离大于垂直滑动距离，且滑动距离超过50px
-        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-            // 从左侧边缘向右滑动打开侧边栏
-            if (deltaX > 0 && touchStartX < 50) {
-                sidebar?.classList.add('open');
-            }
-            // 向左滑动关闭侧边栏
-            else if (deltaX < 0 && sidebar?.classList.contains('open')) {
-                sidebar.classList.remove('open');
-            }
+    // 选择章节后自动关闭菜单
+    const sidebarContent = document.getElementById('sidebarContent');
+    sidebarContent?.addEventListener('click', (e) => {
+        if (e.target.closest('.section-item')) {
+            closeMobileMenu();
         }
-    }, { passive: true });
+    });
+}
 
-    // 题目区域左右滑动切换题目
-    const questionCard = document.getElementById('questionCard');
-    if (questionCard) {
-        questionCard.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        questionCard.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            const deltaX = touchEndX - touchStartX;
-
-            // 滑动距离超过100px才切换题目
-            if (Math.abs(deltaX) > 100) {
-                if (deltaX > 0) {
-                    // 向右滑动 - 上一题
-                    prevQuestion();
-                } else {
-                    // 向左滑动 - 下一题
-                    nextQuestion();
-                }
-            }
-        }, { passive: true });
-    }
+function closeMobileMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    sidebar?.classList.remove('open');
+    mobileOverlay?.classList.remove('active');
+    document.body.style.overflow = '';
 }
 
 // ==================== 科目和模式切换 ====================
