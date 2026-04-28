@@ -1158,7 +1158,7 @@ body {
 
     /* 底部操作栏 - 固定在底部 */
     .question-bottom-bar {
-        padding: 12px 16px;
+        padding: 10px 12px;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -1170,32 +1170,38 @@ body {
     }
 
     .bottom-bar-content {
-        display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
-        gap: 12px;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
         align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
     }
 
     .bottom-bar-content .btn {
-        padding: 12px 8px;
-        font-size: 0.8125rem;
-        min-height: 44px;
+        padding: 10px 12px;
+        font-size: 0.75rem;
+        min-height: 40px;
         border-radius: 8px;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .bottom-bar-content .nav-btn {
-        padding: 12px 8px;
-        font-size: 0.8125rem;
-        min-height: 44px;
+        padding: 10px 14px;
+        font-size: 0.8rem;
+        min-height: 40px;
         border-radius: 8px;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .bottom-bar-content .question-counter {
         font-size: 0.75rem;
-        padding: 8px;
+        padding: 8px 4px;
         text-align: center;
-        grid-column: 2;
-        grid-row: 1;
+        flex: 1;
+        min-width: 80px;
     }
 
     /* 题目区域添加底部padding，避免被固定底部栏遮挡 */
@@ -1203,25 +1209,40 @@ body {
         padding: 20px 20px 100px 20px;
     }
 
-    /* 答题卡 - 改为横向滑动 */
+    /* 答题卡 - 改为网格布局显示全部题号 */
     .answer-card-sidebar {
         width: 100%;
         right: -100%;
+        max-height: 80vh;
+        overflow-y: auto;
     }
 
     .answer-card-grid {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
         padding: 16px;
         gap: 10px;
+        overflow-x: visible;
+        flex-wrap: wrap;
     }
 
     .answer-card-item {
-        width: 48px;
-        height: 48px;
-        font-size: 1rem;
+        width: auto;
+        height: 44px;
+        font-size: 0.875rem;
         flex-shrink: 0;
+    }
+
+    .answer-card-header {
+        padding: 16px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .answer-card-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        font-size: 0.8125rem;
     }
 
     /* 弹窗 */
