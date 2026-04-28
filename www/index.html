@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#4f46e5">
+    <title>基金从业资格考试 - 三科目完整题库</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- PWA 支持 -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部科目导航 -->
+        <header class="top-nav">
+            <div class="logo">📚 基金从业题库</div>
+            <nav class="subject-tabs">
+                <button class="subject-tab active" data-subject="subject1">
+                    <span class="tab-num">科目1</span>
+                    <span class="tab-name">基金法律法规</span>
+                </button>
+                <button class="subject-tab" data-subject="subject2">
+                    <span class="tab-num">科目2</span>
+                    <span class="tab-name">证券投资基金基础</span>
+                </button>
+                <button class="subject-tab" data-subject="subject3">
+                    <span class="tab-num">科目3</span>
+                    <span class="tab-name">私募股权投资基金</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- 模式切换导航 -->
+        <nav class="mode-nav">
+            <button class="mode-tab active" data-mode="chapter">
+                <span class="mode-icon">📖</span>
+                <span class="mode-name">章节练习</span>
+            </button>
+            <button class="mode-tab" data-mode="pastPaper">
+                <span class="mode-icon">📝</span>
+                <span class="mode-name">历年真题</span>
+            </button>
+            <button class="mode-tab" data-mode="spotQuestion">
+                <span class="mode-icon">🎯</span>
+                <span class="mode-name">考前点题</span>
+            </button>
+        </nav>
+
+        <!-- 主内容区 -->
+        <div class="main-layout">
+            <!-- 左侧导航 -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <h2 id="sidebarTitle">章节列表</h2>
+                </div>
+                <div class="sidebar-content" id="sidebarContent">
+                    <!-- 动态生成内容 -->
+                </div>
+            </aside>
+
+            <!-- 右侧题目区域 -->
+            <main class="content-area">
+                <!-- 工具栏 -->
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <span id="currentTitle">请选择章节或试卷</span>
+                        <span class="progress-info" id="progressInfo"></span>
+                    </div>
+                    <div class="toolbar-right">
+                        <label class="auto-next-toggle" title="答对后自动跳转下一题">
+                            <input type="checkbox" id="autoNextToggle" checked>
+                            <span class="toggle-label">⚡ 自动跳转</span>
+                        </label>
+                        <button class="btn btn-secondary" id="favoritesBtn">⭐ 收藏夹</button>
+                        <button class="btn btn-secondary" id="answerCardBtn">📋 答题卡</button>
+                        <button class="btn btn-danger" id="resetBtn">🔄 重置</button>
+                    </div>
+                </div>
+
+                <!-- 练习内容区 -->
+                <div class="practice-area" id="practiceArea">
+                    <!-- 欢迎/选择页面 -->
+                    <div class="welcome-screen" id="welcomeScreen">
+                        <div class="welcome-content">
+                            <h2>欢迎使用基金从业资格考试题库</h2>
+                            <p>请选择左侧的章节或试卷开始练习</p>
+                            <div class="stats-overview">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="statChapters">0</div>
+                                    <div class="stat-label">章节数</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="statQuestions">0</div>
+                                    <div class="stat-label">总题数</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="statCompleted">0</div>
+                                    <div class="stat-label">已完成</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="statAccuracy">0%</div>
+                                    <div class="stat-label">正确率</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 题目内容 -->
+                    <div class="question-wrapper" id="questionWrapper" style="display: none;">
+                        <!-- 计时器（真题模式） -->
+                        <div class="timer-bar" id="timerBar" style="display: none;">
+                            <span class="timer-label">⏱️ 剩余时间</span>
+                            <span class="timer-display" id="timerDisplay">120:00</span>
+                        </div>
+
+                        <!-- 可滚动的题目区域 -->
+                        <div class="question-scroll-area">
+                            <!-- 题目卡片 -->
+                            <div class="question-card" id="questionCard">
+                                <!-- 动态生成题目 -->
+                            </div>
+                        </div>
+
+                        <!-- 固定在底部的操作栏 -->
+                        <div class="question-bottom-bar" id="footerNav">
+                            <div class="bottom-bar-content">
+                                <button class="btn btn-secondary" id="markBtn">🔖 标记</button>
+                                <button class="btn btn-primary" id="submitPaperBtn" style="display: none;">提交试卷</button>
+                                <span class="question-counter" id="questionCounter">1 / 10</span>
+                                <button class="nav-btn" id="prevBtn">← 上一题</button>
+                                <button class="nav-btn" id="nextBtn">下一题 →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- 答题卡侧边栏 -->
+        <aside class="answer-card-sidebar" id="answerCardSidebar">
+            <div class="answer-card-header">
+                <h3>📋 答题卡</h3>
+                <button class="close-btn" id="closeAnswerCard">&times;</button>
+            </div>
+            <div class="answer-card-stats">
+                <div class="stat-item">
+                    <span class="stat-dot correct"></span>
+                    <span>答对 <strong id="cardCorrectCount">0</strong></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-dot wrong"></span>
+                    <span>答错 <strong id="cardWrongCount">0</strong></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-dot unanswered"></span>
+                    <span>未答 <strong id="cardUnansweredCount">0</strong></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-dot marked"></span>
+                    <span>标记 <strong id="cardMarkedCount">0</strong></span>
+                </div>
+            </div>
+            <div class="answer-card-grid" id="answerCardGrid">
+                <!-- 动态生成 -->
+            </div>
+        </aside>
+    </div>
+
+    <!-- 答案解析弹窗 -->
+    <div class="modal" id="answerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>答案解析</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- 收藏夹弹窗 -->
+    <div class="modal modal-large" id="favoritesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⭐ 收藏夹</h3>
+                <button class="close-btn" id="closeFavorites">&times;</button>
+            </div>
+            <div class="modal-body" id="favoritesBody"></div>
+        </div>
+    </div>
+
+    <!-- 试卷结果弹窗 -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content result-content">
+            <div class="modal-header">
+                <h3>🎉 练习结果</h3>
+                <button class="close-btn" id="closeResult">&times;</button>
+            </div>
+            <div class="modal-body" id="resultBody"></div>
+        </div>
+    </div>
+
+    <!-- 遮罩层 -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- 加载题库数据 -->
+    <script src="exam_database.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
